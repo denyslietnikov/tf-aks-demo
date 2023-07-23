@@ -1,0 +1,7 @@
+*.tfstate
+*.tfstate.*
+**/.terraform/*
+.terraform.lock.hcl
+.DS_Store
+variable.tfvars
+./clusters/test/*
