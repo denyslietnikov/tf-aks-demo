@@ -15,8 +15,8 @@ import (
 )
 
 var (
-	//	uid      string
-	//	db       *sql.DB
+	uid      string
+	db       *sql.DB
 	user     string
 	password string
 )
@@ -47,6 +47,7 @@ func main() {
 	log.Printf("Port: %s", port)
 	log.Printf("Database: %s", database)
 	log.Printf("User: %s", user)
+	//log.Printf("Password: %s", password)
 
 	// Establish connection to the database
 	connString := fmt.Sprintf("server=%s;port=%s;database=%s;user id=%s;password=%s",
@@ -74,26 +75,18 @@ func main() {
 		log.Fatal("Failed to create Telegram bot:", err)
 	}
 
-	// Initialize chatID with an invalid value
-	var chatID int64 = -1
+	chatID, err := getChatID(bot)
+	if err != nil {
+		log.Fatal("Failed to get chat ID from Telegram API:", err)
+	}
 
-	// Get the chatID asynchronously, and continue running the bot even if it fails
-	go func() {
-		var err error
-		chatID, err = getChatID(bot)
-		if err != nil {
-			log.Println("Failed to get chat_id. The bot will wait for the first message in the chat.")
-		}
-	}()
-
-	sendStatistics(db, bot, chatID)
+	go sendStatistics(db, bot, chatID)
 
 	bot.Start()
 }
 
 func sendStatistics(db *sql.DB, bot *tele.Bot, chatID int64) {
 	for {
-		// Get the last processed ID from the database
 		lastProcessedID, err := getLastProcessedID(db)
 		if err != nil {
 			log.Println("Error getting last processed ID:", err)
@@ -101,8 +94,8 @@ func sendStatistics(db *sql.DB, bot *tele.Bot, chatID int64) {
 			continue
 		}
 
-		// Query the database for new data since the last processed ID
 		query := fmt.Sprintf("SELECT ID, Hour, UID, Count FROM JobTable WHERE ID > %d", lastProcessedID)
+
 		rows, err := db.Query(query)
 		if err != nil {
 			log.Println("Error executing query:", err)
@@ -110,10 +103,7 @@ func sendStatistics(db *sql.DB, bot *tele.Bot, chatID int64) {
 			continue
 		}
 
-		// Check if there are new records to send
-		newDataAvailable := false
 		for rows.Next() {
-			newDataAvailable = true
 			var id int
 			var hour time.Time
 			var uid string
@@ -125,13 +115,9 @@ func sendStatistics(db *sql.DB, bot *tele.Bot, chatID int64) {
 				continue
 			}
 
-			// Prepare the message to be sent
 			message := fmt.Sprintf("ID: %d\nHour: %s\nUID: %s\nCount: %d", id, hour.Format(time.RFC3339), uid, count)
-
-			// Send the message to the specified chatID
 			sendTelegramMessage(bot, chatID, message)
 
-			// Update the last processed ID in the database
 			err = updateLastProcessedID(db, id)
 			if err != nil {
 				log.Println("Error updating last processed ID:", err)
@@ -140,24 +126,14 @@ func sendStatistics(db *sql.DB, bot *tele.Bot, chatID int64) {
 
 		rows.Close()
 
-		// If no new data is available, send a message indicating that
-		if !newDataAvailable {
-			message := "No new data available in the last hour."
-			sendTelegramMessage(bot, chatID, message)
-		}
-
-		// Sleep for an hour before checking for new data again
 		time.Sleep(time.Hour)
 	}
 }
 
 func sendTelegramMessage(bot *tele.Bot, chatID int64, message string) {
-	// Only send the message if chatID is valid
-	if chatID != -1 {
-		_, err := bot.Send(&tele.Chat{ID: chatID}, message)
-		if err != nil {
-			log.Println("Error sending message to Telegram:", err)
-		}
+	_, err := bot.Send(&tele.Chat{ID: chatID}, message)
+	if err != nil {
+		log.Println("Error sending message to Telegram:", err)
 	}
 }
 
@@ -185,9 +161,7 @@ func getChatID(bot *tele.Bot) (int64, error) {
 	}
 
 	if !result.OK || len(result.Result) == 0 {
-		// Send an error message, but don't terminate the program
-		log.Println("Failed to get chat_id. The bot will wait for the first message in the chat.")
-		return 0, nil
+		return 0, fmt.Errorf("failed to get chat_id")
 	}
 
 	chatID := result.Result[0].Message.Chat.ID
