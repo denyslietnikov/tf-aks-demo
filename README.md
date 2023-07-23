@@ -35,13 +35,13 @@ The repository is organized as follows:
 ## How to Use
 
 1. Clone the repository to your local machine.
-2. Customize the `vars.tfvars` file with your desired values for the variables. **NOTE**: Make sure to add sensitive information, such as passwords, to your environment variables and reference them in the `vars.tfvars` file.
+2. Customize the `vars.tfvars` file with your desired values for the variables. **NOTE**: Make sure to add sensitive information, such as passwords, to your environment variables and reference them in the `vars.tfvars` file.  
 Example:  
 ```sh
 aks-demo-kv-tg-token = "token"
 aks-demo-sql-server-name     = "sql-server-name "
 aks-demo-sql-server-login    = "server-login"
-aks-demo-sql-server-password = "Apassword"
+aks-demo-sql-server-password = "password"
 aks-demo-sql-server-dbname   = "dbname"
 ```
 3. Initialize Terraform by running the following command:
