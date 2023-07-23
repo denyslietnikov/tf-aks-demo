@@ -36,6 +36,14 @@ The repository is organized as follows:
 
 1. Clone the repository to your local machine.
 2. Customize the `vars.tfvars` file with your desired values for the variables. **NOTE**: Make sure to add sensitive information, such as passwords, to your environment variables and reference them in the `vars.tfvars` file.
+Example:  
+```sh
+aks-demo-kv-tg-token = "token"
+aks-demo-sql-server-name     = "sql-server-name "
+aks-demo-sql-server-login    = "server-login"
+aks-demo-sql-server-password = "Apassword"
+aks-demo-sql-server-dbname   = "dbname"
+```
 3. Initialize Terraform by running the following command:
 ```sh
 terraform init
@@ -68,16 +76,16 @@ Run the following commands to ensure that the application has been successfully 
 ```sh
 kubectl get deploy -n aks-demo
 NAME           READY   UP-TO-DATE   AVAILABLE   AGE
-aks-demo-bot   1/1     1            1           3m43s
-aks-demo-job   1/1     1            1           26h
-aks-demo-log   2/2     2            2           26h
+tf-aks-demo-bot   1/1     1            1           3m43s
+tf-aks-demo-job   1/1     1            1           26h
+tf-aks-demo-log   2/2     2            2           26h
 
 kubectl get pod -n aks-demo
 NAME                            READY   STATUS    RESTARTS        AGE
-aks-demo-bot-7469f846b5-7q8gg   1/1     Running   0               3m50s
-aks-demo-job-7f4b867c99-2szvb   1/1     Running   0               11h
-aks-demo-log-6ff8f6754f-29vsx   1/1     Running   0               3h54m
-aks-demo-log-6ff8f6754f-fsfbq   1/1     Running   0               3h54m
+tf-aks-demo-bot-7469f846b5-7q8gg   1/1     Running   0               3m50s
+tf-aks-demo-job-7f4b867c99-2szvb   1/1     Running   0               11h
+tf-aks-demo-log-6ff8f6754f-29vsx   1/1     Running   0               3h54m
+tf-aks-demo-log-6ff8f6754f-fsfbq   1/1     Running   0               3h54m
 ```
 
 Test the Load Balancer:  
