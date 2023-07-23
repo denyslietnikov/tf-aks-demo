@@ -1,0 +1,41 @@
+# This is a sample pod definition for using SecretProviderClass and the user-assigned identity to access your key vault
+
+cat <<EOF | kubectl apply -f -
+kind: Pod
+apiVersion: v1
+metadata:
+  name: busybox-secrets-store-inline-user-msi
+  namespace: aks-demo
+spec:
+  containers:
+    - name: busybox
+      image: registry.k8s.io/e2e-test-images/busybox:1.29-1
+      command:
+        - "/bin/sleep"
+        - "10000"
+      volumeMounts:
+      - name: secrets-store01-inline
+        mountPath: "/mnt/secrets-store"
+        readOnly: true
+  volumes:
+    - name: secrets-store01-inline
+      csi:
+        driver: secrets-store.csi.k8s.io
+        readOnly: true
+        volumeAttributes:
+          secretProviderClass: "aks-demo-secret-class"
+EOF
+
+
+# export POD_NAME=$(kubectl get pods -l "app=sbusybox-secrets-store-inline-user-msi" -o jsonpath="{.items[0].metadata.name}")
+kubectl get po -n aks-demo
+# if this does not work, check the status of the pod
+# if still in ContainerCreating there might be an issue
+kubectl exec -it busybox-secrets-store-inline-user-msi -n aks-demo -- sh
+ 
+cd /mnt/secrets-store
+ls # the file containing the secret is listed
+cat aks-demo-kv-secret; echo # demovalue is revealed
+ 
+# echo the value of the environment variable
+echo $demosecret # demovalue is revealed

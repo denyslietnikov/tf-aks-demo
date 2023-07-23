@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: aks-demo-allow-8081
+  namespace: aks-demo
+spec:
+  podSelector:
+    matchLabels:
+  ingress:
+  - ports:
+    - protocol: TCP
+      port: 8081

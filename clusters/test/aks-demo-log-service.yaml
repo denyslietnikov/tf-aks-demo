@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aks-demo
+  namespace: aks-demo
+spec:
+  selector:
+    app: aks-demo-log
+  ports:
+  - protocol: TCP
+    port: 8081
+    targetPort: 8000
+  type: LoadBalancer
+  loadBalancerIP: 52.151.211.174
