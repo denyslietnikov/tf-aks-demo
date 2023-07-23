@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: aks-demo-log
-          image: dletnikov/aks-demo-log:v1.0.0-77e3f41-linux-amd64
+          image: dletnikov/aks-demo-log:v1.0.0-833b2bc-linux-amd64
           volumeMounts:
             - name: secrets-store01-inline
               mountPath: "/mnt/secrets-store"
