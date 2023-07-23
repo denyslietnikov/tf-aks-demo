@@ -62,7 +62,7 @@ resource "azurerm_kubernetes_flux_configuration" "flux-config" {
   scope      = "cluster"
 
   git_repository {
-    url             = "https://github.com/denyslietnikov/aks-demo"
+    url             = "https://github.com/denyslietnikov/tf-aks-demo"
     reference_type  = "branch"
     reference_value = "main"
   }
