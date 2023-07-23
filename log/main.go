@@ -143,3 +143,5 @@ func getConnectionString() string {
 	return fmt.Sprintf("server=%s;port=%s;database=%s;user id=%s;password=%s",
 		server, port, database, user, password)
 }
+
+//
