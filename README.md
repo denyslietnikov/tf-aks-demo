@@ -45,9 +45,11 @@ aks-demo-sql-server-password = "password"
 aks-demo-sql-server-dbname   = "dbname"
 ```
 3. Create a new public GitHub repository and add the following two repository secrets:  
-```sh DOCKERHUB_USERNAME```: Your username on DockerHub  
-```sh DOCKERHUB_TOKEN```: Your DockerHub token
-4. Make any commits to the main.go files of the log, job, and bot apps to initiate the generation of container images.  
+`DOCKERHUB_USERNAME`: Your username on DockerHub  
+`DOCKERHUB_TOKEN`: Your DockerHub token
+4. Make any commits to the main.go files of the log, job, and bot apps to initiate the generation of container images.
+After the images are created, the name of the new container will be automatically added as a commit to the Kubernetes manifests.  
+These manifests will then be processed by Flux on the AKS side, ensuring the implementation of CI/CD using the GitOps approach provided here.  
 After the images are created, ensure that the Docker repository is public.  
 Note: It's possible to use any other container registry, but in that case, the workflows will need to be adjusted accordingly.
 5. Initialize Terraform by running the following command:
