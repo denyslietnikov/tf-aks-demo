@@ -2,7 +2,7 @@
 
 ## Terraform - AKS - AKS GitOps (built-in Flux v2) - Azure Key Vault - Azure SQL database - GitHub Actions - DockerHub - Multi-container App
 
-This repository contains a demo project showcasing the use of Terraform and Azure Kubernetes Service (AKS) to deploy a simple multi-container application on Azure.
+This repository contains a demo project showcasing the use of Terraform and Azure Kubernetes Service (AKS) to deploy a simple multi-container application on Azure using the GitOps approach.
 
 ## Overview
 
@@ -28,14 +28,17 @@ The repository is organized as follows:
 
 - `main.tf`: Terraform configuration file defining the infrastructure resources.
 - `variables.tf`: Defines variables used in the Terraform configuration.
-- `vars.tfvars`: Contains values for the variables defined in `variables.tf`. **NOTE**: Do not commit sensitive information such as passwords or access tokens in this file.
+- `terraform.tfvars`: Contains values for the variables defined in `variables.tf`. **NOTE**: Do not commit sensitive information such as passwords or access tokens in this file.
 - `output.tf`: Defines the output values that are displayed after Terraform applies the configuration.
-- `scripts/`: Contains any additional scripts or helper files used in the project.
+- `scripts/`: Contains any additional scripts used in the project.
+- `.gitnub/workflows`: This directory contains the GitHub Actions workflows that automate the CI/CD process. These workflows handle tasks such as building and pushing Docker container images to DockerHub, and updateing Kubernetes manifests.  
+- `log/`, `job/`, `bot/`: These directories contain the source code of the three microservices - log, job, and bot. Each directory includes a main.go file containing the application code.
+- `clusters/flux-system/`: This directory holds the Kubernetes manifests and configurations for Flux, which is used to manage the GitOps workflow. Flux continuously monitors the Git repository for changes in the Kubernetes manifests and automatically updates the AKS cluster accordingly, ensuring that the desired state of the infrastructure and applications is always in sync with the Git repository.
 
 ## How to Use
 
 1. Clone the repository to your local machine.
-2. Customize the `vars.tfvars` file with your desired values for the variables. **NOTE**: Make sure to add sensitive information, such as passwords, to your environment variables and reference them in the `vars.tfvars` file.  
+2. Create your own `terraform.tfvars` file with your desired values for the variables. **NOTE**: Make sure to add sensitive information, such as passwords, to your environment variables and reference them in the `terraform.tfvars` file.  
 Example:  
 ```sh
 aks-demo-kv-tg-token = "token"
