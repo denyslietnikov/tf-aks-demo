@@ -1,6 +1,6 @@
 # Terraform AKS Demo Project
 
-## Terraform - AKS - AKS GitOps (built-in Flux v2) - Azure Key Vault - Azure SQL database - GitHub Actions - DockerHub - Multi-container App
+## Terraform - AKS - AKS GitOps (built-in Flux v2) - Azure Key Vault - Azure SQL Database - GitHub Actions - DockerHub - Multi-Container App
 
 This repository contains a demo project showcasing the use of Terraform and Azure Kubernetes Service (AKS) to deploy a simple multi-container application on Azure using the GitOps approach.
 
@@ -34,6 +34,10 @@ The repository is organized as follows:
 - `.gitnub/workflows`: This directory contains the GitHub Actions workflows that automate the CI/CD process. These workflows handle tasks such as building and pushing Docker container images to DockerHub, and updateing Kubernetes manifests.  
 - `log/`, `job/`, `bot/`: These directories contain the source code of the three microservices - log, job, and bot. Each directory includes a main.go file containing the application code.
 - `clusters/flux-system/`: This directory holds the Kubernetes manifests and configurations for Flux, which is used to manage the GitOps workflow. Flux continuously monitors the Git repository for changes in the Kubernetes manifests and automatically updates the AKS cluster accordingly, ensuring that the desired state of the infrastructure and applications is always in sync with the Git repository.
+
+## Project Components Diagram
+
+<img src="./docs/diagram.png" width="100%" alt="diagram">
 
 ## How to Use
 
