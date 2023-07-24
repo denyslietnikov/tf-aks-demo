@@ -43,9 +43,9 @@ bot-push:
 
 
 #log-docker-run:
-#	docker run -p 8000:8000 ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}
+#	docker run -p 8000:8000 ${REGISTRY}/${APP}-log:${VERSION}-${TARGETOS}-${TARGETARCH}
 
 
 #log-clean:
-#	rm -rf log
-#	docker rmi ${REGISTRY}/${APP}:${VERSION}-${TARGETOS}-${TARGETARCH}|| true
+#	rm -rf ./log/log
+#	docker rmi ${REGISTRY}/${APP}-log:${VERSION}-${TARGETOS}-${TARGETARCH}|| true

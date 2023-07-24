@@ -1,4 +1,4 @@
-# AKS Demo Project
+# Terraform AKS Demo Project
 
 ## Terraform - AKS - AKS GitOps (built-in Flux v2) - Azure Key Vault - Azure SQL database - GitHub Actions - DockerHub - Multi-container App
 
@@ -44,19 +44,25 @@ aks-demo-sql-server-login    = "server-login"
 aks-demo-sql-server-password = "password"
 aks-demo-sql-server-dbname   = "dbname"
 ```
-3. Initialize Terraform by running the following command:
+3. Create a new public GitHub repository and add the following two repository secrets:  
+```sh DOCKERHUB_USERNAME```: Your username on DockerHub  
+```sh DOCKERHUB_TOKEN```: Your DockerHub token
+4. Make any commits to the main.go files of the log, job, and bot apps to initiate the generation of container images.  
+After the images are created, ensure that the Docker repository is public.  
+Note: It's possible to use any other container registry, but in that case, the workflows will need to be adjusted accordingly.
+5. Initialize Terraform by running the following command:
 ```sh
 terraform init
 ```
-4. Review the changes that Terraform will make by running the following command:
+6. Review the changes that Terraform will make by running the following command:
 ```sh
-terraform plan -var-file=vars.tfvars
+terraform plan -var-file=terraform.tfvars
 ```
-5. If the plan looks correct, apply the configuration with the following command:
+7. If the plan looks correct, apply the configuration with the following command:
 ```sh
-terraform apply -var-file=vars.tfvars
+terraform apply -var-file=terraform.tfvars
 ```
-6. After the deployment is complete, Terraform will output the necessary information to access the deployed resources.
+8. After the deployment is complete, Terraform will output the necessary information to access the deployed resources.
 
 ## Deploy Additional Manifests
 
@@ -123,7 +129,7 @@ Note: If the bot encounters any issues in determining the chat_id during startup
 
 To destroy all the resources created by Terraform and avoid unnecessary costs, run the following command:
 
-terraform destroy -var-file=vars.tfvars
+terraform destroy -var-file=terraform.tfvars
 
 ## Contributions
 
