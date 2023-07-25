@@ -247,3 +247,5 @@ func createTable(db *sql.DB) {
 
 	log.Println("LastProcessedRecord table created (if not already exists)")
 }
+
+//
