@@ -81,6 +81,18 @@ spec:
           objectName: aks-demo-kv-password
           objectType: secret
           objectVersion: ""
+        - |
+          objectName: aks-demo-kv-database
+          objectType: secret
+          objectVersion: ""
+        - |
+          objectName: aks-demo-kv-port
+          objectType: secret
+          objectVersion: ""
+        - |
+          objectName: aks-demo-kv-server
+          objectType: secret
+          objectVersion: ""
     tenantId: "$AZURE_TENANT_ID"
 EOF
 

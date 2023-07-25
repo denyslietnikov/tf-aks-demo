@@ -166,6 +166,25 @@ resource "azurerm_key_vault_secret" "aks-demo-kv-password" {
   key_vault_id = azurerm_key_vault.aks-demo-kv.id
 }
 
+resource "azurerm_key_vault_secret" "aks-demo-kv-server" {
+  name         = "aks-demo-kv-server"
+  value        = var.aks-demo-sql-server-name
+  key_vault_id = azurerm_key_vault.aks-demo-kv.id
+}
+
+resource "azurerm_key_vault_secret" "aks-demo-kv-port" {
+  name         = "aks-demo-kv-port"
+  value        = var.aks-demo-sql-server-port
+  key_vault_id = azurerm_key_vault.aks-demo-kv.id
+}
+
+resource "azurerm_key_vault_secret" "aks-demo-kv-database" {
+  name         = "aks-demo-kv-database"
+  value        = var.aks-demo-sql-server-dbname
+  key_vault_id = azurerm_key_vault.aks-demo-kv.id
+}
+
+
 
 # Azure Key Vault Role Assignment for Managed Identity for AKS
 resource "azurerm_role_assignment" "assign_kv_admin_role_for_yourself" {
@@ -184,6 +203,8 @@ resource "azurerm_role_assignment" "assign_kv_admin_role" {
   role_definition_name = "Key Vault Administrator"
   principal_id         = data.azurerm_user_assigned_identity.identity.principal_id
 }
+
+#Above, we grant the Key Vault Administrator role. In production, that should be a role with less privileges.
 
 
 

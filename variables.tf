@@ -66,3 +66,9 @@ variable "aks-demo-sql-server-dbname" {
   default     = "dbname"
 }
 
+variable "aks-demo-sql-server-port" {
+  type        = string
+  description = ""
+  default     = "1433"
+}
+
