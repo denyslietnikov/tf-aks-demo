@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"strconv"
 	"time"
 
 	_ "github.com/denisenkom/go-mssqldb"
@@ -15,18 +16,24 @@ var (
 	db       *sql.DB
 	user     string
 	password string
+	server   string
+	port     int
+	database string
 )
 
 const (
-	server   = "dlietnikov-aks-demo.database.windows.net"
-	port     = "1433"
-	database = "aks-demo"
-
+	//	server   = "dlietnikov-aks-demo.database.windows.net"
+	//	port     = "1433"
+	//	database = "aks-demo"
+	serverSecretFile   = "/mnt/secrets-store/aks-demo-kv-server"
+	portSecretFile     = "/mnt/secrets-store/aks-demo-kv-port"
+	databaseSecretFile = "/mnt/secrets-store/aks-demo-kv-database"
 	userSecretFile     = "/mnt/secrets-store/aks-demo-kv-user"
 	passwordSecretFile = "/mnt/secrets-store/aks-demo-kv-password"
 )
 
 func main() {
+
 	// Read user and password from files
 	var err error
 	user, err = readSecretFromFile(userSecretFile)
@@ -34,6 +41,24 @@ func main() {
 		log.Fatal(err)
 	}
 	password, err = readSecretFromFile(passwordSecretFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	server, err = readSecretFromFile(serverSecretFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	portStr, err := readSecretFromFile(portSecretFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	port, err = strconv.Atoi(portStr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	database, err = readSecretFromFile(databaseSecretFile)
 	if err != nil {
 		log.Fatal(err)
 	}
