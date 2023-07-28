@@ -40,7 +40,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Service
 metadata:
-  name: aks-demo
+  name: aks-demo-service
   namespace: aks-demo
 spec:
   selector:

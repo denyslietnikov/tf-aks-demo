@@ -45,7 +45,7 @@ The repository is organized as follows:
 2. Create your own `terraform.tfvars` file with your desired values for the variables. **NOTE**: Make sure to add sensitive information, such as passwords, to your environment variables and reference them in the `terraform.tfvars` file.  
 Example:  
 ```sh
-aks-demo-kv-tg-token = "token"
+aks-demo-kv-tg-token         = "token"
 aks-demo-sql-server-name     = "sql-server-name "
 aks-demo-sql-server-login    = "server-login"
 aks-demo-sql-server-password = "password"
